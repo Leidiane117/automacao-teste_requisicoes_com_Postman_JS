@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "2950ffff-bdf9-4ca3-be7d-1f10005f12c4",
+		"name": "Teste_Correção",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15886692"
+	},
+	"item": [
+		{
+			"name": "Gerar_Pessoa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code sucesso 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches idade\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"idade\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Sexo deve ser Masculino\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].sexo).to.eql('Masculino');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Sexo não deve ser Feminino\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].sexo).to.eql('Feminino');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Setar Variável Global\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var cpf = jsonData[0].cpf\r",
+							"    //console.log(JSON.parse(cpf))\r",
+							"   pm.globals.set(\"CPF\", cpf);\r",
+							"   console.log(pm.variables.get(\"CPF\"));\r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "acao",
+							"value": "gerar_pessoa ",
+							"type": "text"
+						},
+						{
+							"key": "pontuacao",
+							"value": "N",
+							"type": "text"
+						},
+						{
+							"key": "sexo",
+							"value": "H",
+							"type": "text"
+						},
+						{
+							"key": "txt_qtde",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{URL}}",
+					"host": [
+						"{{URL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validar_CPF",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { //validação resposta do status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Verdadeiro\"); // se tem a palavra verdadeiro na response do body\r",
+							"});\r",
+							"\r",
+							"pm.globals.unset(\"CPF\"); //limpando a variável global\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "acao",
+							"value": "validar_cpf",
+							"type": "text"
+						},
+						{
+							"key": "txt_cpf",
+							"value": "{{CPF}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{URL}}/validar_cpf",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"validar_cpf"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"",
+					""
+				]
+			}
+		}
+	]
+}
